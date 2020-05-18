@@ -1,5 +1,6 @@
 package com.bookstore.bookexplorer.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,8 +18,8 @@ import java.math.BigDecimal;
 public class Book implements Serializable {
 
     @Id
-    @GeneratedValue //(generator = "sequence", strategy = GenerationType.AUTO)
-    //@SequenceGenerator(name = "generator", allocationSize = 10)
+    @GeneratedValue
+    @JsonIgnore
     private Long Id;
 
     @Column(unique = true)
@@ -31,7 +32,8 @@ public class Book implements Serializable {
     @NotBlank(message = "Book author must be specified")
     private String author;
 
-    private Integer copies;
+    @JsonIgnore
+    private Integer copies = 0;
 
     @NotNull(message = "Book price must be specified")
     private BigDecimal price;

@@ -1,6 +1,7 @@
 package com.bookstore.bookexplorer.controller;
 
 import com.bookstore.bookexplorer.exception.BookNotFoundException;
+import com.bookstore.bookexplorer.exception.NoPostsFoundException;
 import com.bookstore.bookexplorer.model.Book;
 import com.bookstore.bookexplorer.model.Post;
 import com.bookstore.bookexplorer.service.BookService;
@@ -41,9 +42,9 @@ public class BookStoreController {
 
     @GetMapping("/search-media-coverage-by-isbn")
     public List<Post> getPostsByISBN(@RequestParam(value = "isbn") String ISBN) {
-        return bookService.getPostsByISBN(ISBN);
-
-        // TODO: add no posts found exception and controller advice
+        List<Post> posts = bookService.getPostsByISBN(ISBN);
+        if (posts.isEmpty()) throw new NoPostsFoundException();
+        else return posts;
     }
 
     @PostMapping("/add-book")
